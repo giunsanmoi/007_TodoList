@@ -1,0 +1,67 @@
+body{
+  background-color: #00ddee;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+.col1{
+  width: 23.33%;
+  height: 400px;
+  background-color: #dddddd;
+  border-radius: 25px;
+  margin-left: 15%;
+  float: left;
+}
+.col1 .head{
+  color: red;
+  margin-left: 10%;
+  font-weight: bold;
+  font-size: 1.25em;
+}
+.col1 .child{
+  background-color: #fdfdfd;
+  border-radius: 20px;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right:5%;
+}
+.col1 .child1{
+  background-color: #fdfdfd;
+  border-radius: 20px;
+
+  position: absolute;
+}
+.col2{
+  width: 23.33%;
+  height: 400px;
+  background-color: #dddddd;
+  border-radius: 25px;
+  margin-left: 1%;
+  float: left;
+}
+.col2 .head{
+  color: red;
+  margin-left: 10%;
+  font-weight: bold;
+  font-size: 1.25em;
+}
+.col3{
+  width: 23.33%;
+  height: 400px;
+  background-color: #dddddd;
+  border-radius: 25px;
+  margin-left: 1%;
+  float: left;
+}
+.col3 .head{
+  color: red;
+  margin-left: 10%;
+  font-weight: bold;
+  font-size: 1.25em;
+}
