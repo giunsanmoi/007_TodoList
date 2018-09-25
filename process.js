@@ -18,6 +18,9 @@ function col1_press(){
     child_col1_num = child_col1_num + 1;
     parent.appendChild(divtest);
     divtest.addEventListener('mousedown',child_press,false);
+
+    console.log(typeof(parent.clientHeight));
+    parent.style.height = (parent.clientHeight + 70) + 'px';
   }
 }
 var k = 10;
@@ -43,7 +46,7 @@ function col1_up(e){
   is_select = false;
 }
 $(document).ready(function() {
-  document.getElementById('col1').addEventListener('mousedown',col1_press, false);
+  document.getElementById('add1').addEventListener('mousedown',col1_press, false);
   document.getElementById('col1').addEventListener('mousemove',col1_move, false);
   document.getElementById('col1').addEventListener('mouseup',col1_up, false);
 
