@@ -12,7 +12,7 @@ body{
 }
 .col1{
   width: 23.33%;
-  height: 120px;
+  height: 100px;
   background-color: #eeeeee;
   border-radius: 10px;
   margin-left: 15%;
@@ -23,9 +23,10 @@ body{
 .col1 .head{
   color: #6666aa;
   margin-left: 10%;
-  margin-top: 0px;
+  margin-top: 5px;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 1.5em;
+  font-family: Ubuntu;
 }
 .col1 .child{
   background-color: #fdfdfd;
@@ -65,9 +66,10 @@ body{
 .col2 .head{
   color: #6666aa;
   margin-left: 10%;
-  margin-top: 0px;
+  margin-top: 5px;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 1.5em;
+  font-family: Ubuntu;
 }
 .col3{
   width: 23.33%;
@@ -80,9 +82,10 @@ body{
 .col3 .head{
   color: #6666aa;
   margin-left: 10%;
-  margin-top: 0px;
+  margin-top: 5px;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 1.5em;
+  font-family: Ubuntu;
 }
 
 .test{
