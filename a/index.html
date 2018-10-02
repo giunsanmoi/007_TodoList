@@ -1,31 +1,48 @@
-<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>To Do List</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
-
-
 </head>
 <body>
-  <div class="col1" id='col1'>
-    <p class='head noselect'>Task</p>
-    <div id='add1' class="fa fa-plus add noselect"> Thêm thẻ khác...</div>
-    <div class='parent'>
-      <div contenteditable="true" spellcheck="false" class='child1' >
-        Design Mạch
-      </div>
-      <div class='icon1 fa fa-edit'></div>
-    </div>
-  </div>
-  <div class="col2">
-    <p class='head noselect'>Processing</p>
-  </div>
-  <div class="col3">
-    <p class='head noselect'>Complete</p>
-  </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+  var config = {
+    apiKey: "AIzaSyC7elL3FYPlcVj7PvN9ecGpvVUVg6L1fKg",
+    authDomain: "worklist-app.firebaseapp.com",
+    databaseURL: "https://worklist-app.firebaseio.com",
+    projectId: "worklist-app",
+    storageBucket: "worklist-app.appspot.com",
+    messagingSenderId: "740341135888"
+  };
+  firebase.initializeApp(config);
+
+
+  var db = firebase.firestore();
+  db.settings({
+    timestampsInSnapshots: true
+  });
+/*
+  db.collection("asd").add({
+    first: "Ada"
+  })
+  .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+
+*/
+
+  db.collection("db").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+    });
+  });
+</script>
+</body>
 </html>
