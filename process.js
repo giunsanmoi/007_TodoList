@@ -14,6 +14,33 @@ var is_create_element_drap = false;
 var is_init_element_drap = false;
 var x_offset, y_offset;
 
+//Variable for addElement from user
+var is_addElement = false;
+function create_AddElem(col){
+  var child = document.createElement("div");
+  switch(col){
+    case 'col1':{
+      child.id = 'add1';
+      break;
+    }
+    case 'col2':{
+      child.id = 'add2';
+      break;
+    }
+    case 'col3':{
+      child.id = 'add3';
+      break;
+    }
+  }
+  child.style.order = 10;
+  child.setAttribute('class','fa fa-plus add noselect');
+  child.innerText = ' Thêm thẻ khác...';
+  document.getElementById(col).appendChild(child);
+
+  child.addEventListener('mousedown',add_child_callback, false);
+
+
+}
 function child_press(e){
   //e.target.innerHTML = 'Change';
   if(e.target.contentEditable == 'true'){     //Target is a context child
@@ -32,8 +59,6 @@ function child_press(e){
     elem_delete(elem_drap);
   }
   else{
-
-
     is_select = true;
 
     x_start_press = e.x;
@@ -94,7 +119,35 @@ function add_child(col, index, content){
 
   child.addEventListener('mousedown',child_press,false);
 }
+var child_textarea_add_temp;
 function add_child_callback(e){
+  parent = e.target.parentElement;
+  e.target.parentElement.removeChild(e.target);
+
+  child_textarea_add_temp = document.createElement("div");
+  var childcontent = document.createElement("textarea");
+  var childlogo = document.createElement("div");
+
+  childcontent.setAttribute('class','childinput noselect');
+  childcontent.autofocus = 'autofocus';
+  childcontent.placeholder = 'Task';
+
+  //childcontent.setAttribute('contenteditable', 'true');
+  childcontent.id = 'textarea_input';
+
+  childlogo.setAttribute('class','childinput_logo fa fa-close');
+
+  child_textarea_add_temp.setAttribute('class','child noselect');
+  child_textarea_add_temp.appendChild(childcontent);
+  child_textarea_add_temp.appendChild(childlogo);
+
+  parent.appendChild(child_textarea_add_temp);
+
+  document.getElementById('textarea_input').focus();
+
+
+  is_addElement = true;
+  /*
   if(!is_select){
     var child = document.createElement("div");
     var childcontent = document.createElement("div");
@@ -143,6 +196,7 @@ function add_child_callback(e){
 
     child.addEventListener('mousedown',child_press,false);
   }
+  */
 }
 
 function col1_move(e){
@@ -219,11 +273,25 @@ function col1_up(e){
     document.body.removeChild(elem_move);
     console.log('remove')
   }
+
   is_select = false;
   is_create_element_drap = false;
   is_init_element_drap = false;
 }
-
+var is_press_col = false;
+function press_col(e){
+  is_press_col = true;
+}
+function press_window(e){
+  if((is_addElement)&&(!is_press_col)){
+    is_addElement = false;
+    create_AddElem(child_textarea_add_temp.parentElement.id);
+    child_textarea_add_temp.parentElement.removeChild(child_textarea_add_temp);
+  }
+  else{
+    is_press_col = false;
+  }
+}
 function col_order_soft(col){
   var child_index = {};
   var child_index_loss = 100;
@@ -252,8 +320,20 @@ function elem_delete(elem_del){
   child_col[parent_elem.id] = child_col[parent_elem.id] - 1;
 }
 
+function keypress_callback(e){
+  console.log(e.key);
+
+  if((e.key == 'Enter')&&(is_addElement)){
+    is_addElement = false;
+    add_child(child_textarea_add_temp.parentElement.id,1,document.getElementById('textarea_input').value);
+    create_AddElem(child_textarea_add_temp.parentElement.id);
+    child_textarea_add_temp.parentElement.removeChild(child_textarea_add_temp);
+  }
+}
 $(document).ready(function() {
   firebase_init();
+
+
 
   //getData_firebase();
   //add_element_firebase('col1',1,'1as');
@@ -273,6 +353,13 @@ $(document).ready(function() {
   document.getElementById('col3').addEventListener('mouseup',col1_up, false);
   //Mouse Up for drap element or none in window
   window.addEventListener('mouseup',col1_up, false);
+
+  document.getElementById('col1').addEventListener('mousedown',press_col, false);
+  document.getElementById('col2').addEventListener('mousedown',press_col, false);
+  document.getElementById('col3').addEventListener('mousedown',press_col, false);
+  window.addEventListener('mousedown', press_window, false);
+  //Keyboard Press Event
+  document.addEventListener("keypress", keypress_callback);
 
 
 })
