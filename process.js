@@ -121,6 +121,11 @@ function add_child(col, index, content){
 }
 var child_textarea_add_temp;
 function add_child_callback(e){
+  if(is_addElement){
+    is_addElement = false;
+    create_AddElem(child_textarea_add_temp.parentElement.id);
+    child_textarea_add_temp.parentElement.removeChild(child_textarea_add_temp);
+  }
   parent = e.target.parentElement;
   e.target.parentElement.removeChild(e.target);
 
@@ -137,6 +142,7 @@ function add_child_callback(e){
 
   childlogo.setAttribute('class','childinput_logo fa fa-close');
 
+  child_textarea_add_temp.style.order = 10;
   child_textarea_add_temp.setAttribute('class','child noselect');
   child_textarea_add_temp.appendChild(childcontent);
   child_textarea_add_temp.appendChild(childlogo);
@@ -144,7 +150,7 @@ function add_child_callback(e){
   parent.appendChild(child_textarea_add_temp);
 
   document.getElementById('textarea_input').focus();
-
+  e.preventDefault();
 
   is_addElement = true;
   /*
