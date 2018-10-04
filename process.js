@@ -103,6 +103,8 @@ function add_child(col, index, content){
       break;
     }
   }
+  add_element_firebase(col,child_col[col],content);
+
   child_col[col] = child_col[col] + 1;
 
   child.setAttribute('class','child noselect');
@@ -118,6 +120,8 @@ function add_child(col, index, content){
   parent.appendChild(child);
 
   child.addEventListener('mousedown',child_press,false);
+
+
 }
 var child_textarea_add_temp;
 function add_child_callback(e){
@@ -246,25 +250,26 @@ function col1_move(e){
       for(i = 1; i <= 3; i++){
         col_check = 'col' + i;
         col_obj = document.getElementById(col_check);
+        //Check Element on Column ?
         if(( x0 > col_obj.offsetLeft)&&(x0 < (col_obj.offsetLeft + col_obj.clientWidth))){
-          //console.log(col_check);
-          //console.log(document.getElementById(id_elem_drap).parentElement)
+          //Drap in difference column
           if(col_check !== col_drap_obj.id){
             if(col_obj.childElementCount == 2){
               var order_temp = elem_drap.style.order;
-              col_drap_obj.removeChild(elem_drap);
-              //console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-              //console.log(elem_drap);
+              add_element_firebase(col_check, 0, elem_drap.textContent);
+
               elem_drap.style.order = 0;
               col_obj.appendChild(elem_drap);
 
+              delete_element_firebase(col_drap_obj.id, col_drap_obj.childElementCount - 3);
+
+              col_drap_obj.removeChild(elem_drap);
               for(j = 1; j < col_drap_obj.childElementCount; j++){
                 if((col_drap_obj.children[j].style.order > order_temp)&&(col_drap_obj.children[j].style.order < 10)){
                   col_drap_obj.children[j].style.order = col_drap_obj.children[j].style.order - 1;
+                  add_element_firebase(col_drap_obj.id, col_drap_obj.children[j].style.order, col_drap_obj.children[j].textContent);
                 }
               }
-
-              //col_order_soft(col_drap_obj);
             }
             else{
               var index_change = 0;
@@ -272,24 +277,28 @@ function col1_move(e){
               for(j = 1; j < (col_obj.childElementCount); j++){
                 if(((elem_move.offsetTop - 10 + (elem_move.clientHeight/2)) > (col_obj.children[j].offsetTop))&&((elem_move.offsetTop - 10 + (elem_move.clientHeight/2)) < (col_obj.children[j].offsetTop + col_obj.children[j].clientHeight))&&(col_obj.children[j].style.order < 10)){
                   index_change = col_obj.children[j].style.order;
-                  console.log(index_change)
+                  //console.log(index_change)
                 }
               }
 
               for(j = 1; j < (col_obj.childElementCount); j++){
                 if((col_obj.children[j].style.order >= index_change)&&(col_obj.children[j].style.order < 10)){
                   col_obj.children[j].style.order = +col_obj.children[j].style.order + 1;
+                  add_element_firebase(col_obj.id, col_obj.children[j].style.order, col_obj.children[j].textContent);
                 }
               }
+
+              delete_element_firebase(col_drap_obj.id, col_drap_obj.childElementCount - 3);
               col_drap_obj.removeChild(elem_drap);
-              //console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-              //console.log(elem_drap);
+
               elem_drap.style.order = index_change;
               col_obj.appendChild(elem_drap);
+              add_element_firebase(col_obj.id, index_change, elem_move.textContent);
 
               for(j = 1; j < col_drap_obj.childElementCount; j++){
                 if((col_drap_obj.children[j].style.order > order_temp)&&(col_drap_obj.children[j].style.order < 10)){
                   col_drap_obj.children[j].style.order = col_drap_obj.children[j].style.order - 1;
+                  add_element_firebase(col_drap_obj.id, col_drap_obj.children[j].style.order, col_drap_obj.children[j].textContent);
                 }
               }
 
@@ -298,14 +307,19 @@ function col1_move(e){
             child_col[col_check] = child_col[col_check] + 1;
             child_col[col_drap_obj.id] = child_col[col_drap_obj.id] - 1;
           }
-          else {
+          else {  //Drap in same column
             for(i = 1; i < (col_drap_obj.childElementCount); i++){
               col_y_element[i] = col_drap_obj.children[i].offsetTop;
               col_height_element[i] = col_drap_obj.children[i].clientHeight;
               if(((elem_move.offsetTop - 10 + elem_move.clientHeight/2) > col_drap_obj.children[i].offsetTop)&&((elem_move.offsetTop - 10 + elem_move.clientHeight/2) < (col_drap_obj.children[i].offsetTop + col_drap_obj.children[i].clientHeight))&&(col_drap_obj.children[i].style.order < 10)){
-                order_temp = col_drap_obj.children[i].style.order;
-                col_drap_obj.children[i].style.order = document.getElementById(id_elem_drap).style.order;
-                document.getElementById(id_elem_drap).style.order = order_temp;
+                if(col_drap_obj.children[i].style.order !== document.getElementById(id_elem_drap).style.order){
+                  order_temp = col_drap_obj.children[i].style.order;
+                  col_drap_obj.children[i].style.order = document.getElementById(id_elem_drap).style.order;
+                  add_element_firebase(col_drap_obj.id, col_drap_obj.children[i].style.order, col_drap_obj.children[i].textContent);
+                  document.getElementById(id_elem_drap).style.order = order_temp;
+                  add_element_firebase(col_drap_obj.id, order_temp, elem_move.textContent);
+                }
+
                 break;
               }
             }
@@ -340,9 +354,8 @@ function col1_up(e){
 
     document.getElementById(id_elem_drap).style.background = ''
 
-
     document.body.removeChild(elem_move);
-    console.log('remove')
+    //console.log('remove')
   }
 
   is_select = false;
@@ -366,19 +379,28 @@ function press_window(e){
 function col_order_soft(col){
   var child_index = {};
   var child_index_loss = 100;
-  for(let i = 2; i < col.childElementCount; i++){
-    child_index[col.children[i].style.order] = 1;
+  var max_child = 0;
+  for(let i = 1; i < col.childElementCount; i++){
+    if(col.children[i].style.order < 10){
+      child_index[col.children[i].style.order] = 1;
+      max_child = col.children[i].style.order;
+    }
   }
+  var child_index_loss;
   for(let i = 0; i < Object.getOwnPropertyNames(child_index).length; i++){
     if(child_index[i] === undefined){
       child_index_loss = i;
       break;
     }
   }
+
   if(child_index_loss !== 100){
-    for(let i = 2; i < col.childElementCount; i++){
-      if(col.children[i].style.order > child_index_loss){
+    for(let i = 1; i < col.childElementCount; i++){
+      if((col.children[i].style.order > child_index_loss)&&(col.children[i].style.order < 10)){
         col.children[i].style.order = col.children[i].style.order - 1;
+        add_element_firebase(col.id, col.children[i].style.order, col.children[i].textContent)
+        //console.log(col.children[i].style.order)
+        //console.log(col.children[i].textContent)
       }
       child_index[col.children[i].style.order] = 1;
     }
@@ -386,6 +408,9 @@ function col_order_soft(col){
 }
 function elem_delete(elem_del){
   var parent_elem = elem_del.parentElement;
+  //console.log(parent_elem.childElementCount - 1)
+  delete_element_firebase(parent_elem.id, parent_elem.childElementCount - 3);
+
   parent_elem.removeChild(elem_del);
   col_order_soft(parent_elem);
   child_col[parent_elem.id] = child_col[parent_elem.id] - 1;
@@ -433,7 +458,11 @@ $(document).ready(function() {
 
 
   getData_firebase();
-  //add_element_firebase('col1',1,'1as');
+  document.getElementById('add1').style.order = 10;
+  document.getElementById('add2').style.order = 10;
+  document.getElementById('add3').style.order = 10;
+  //add_element_firebase('col2',1,'hsihi');
+  //delete_element_firebase();
 
   document.getElementById('add1').addEventListener('mousedown',add_child_callback, false);
   document.getElementById('add2').addEventListener('mousedown',add_child_callback, false);

@@ -2,3 +2,4 @@
 2. Auto Resize Add-Input khi nhieu line
 3. Focus khi Add element chi duoc lan dau (Da fix)-> them e.preventDefault() sau .focus()
 4. Loi khi nhan Add 2 lan o 2 column khac nhau -> Done
+5. Loi khi di chuyen Element tu cot nay sang cot khac nhung vao vung chet(vung chua dat dieu kien)
