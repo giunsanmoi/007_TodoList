@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
@@ -67,37 +68,37 @@
   </style>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-  <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<script id='login' type="text/template">
-  <img class='logo noselect' src="logo.png" >
-  <div class='signin_title noselect'>Sign in to WorkLists</div>
-  <div class='box_login'>
-    <div>Username </div>
-    <input class='input_login' type="text" name="username">
-    <div class='text_box_spacing'>Password</div>
-    <input class='input_login' type="password" name="password">
-    <button class='button_login noselect' type="button">Login</button>
-  </div>
-</script>
-<script id='content' type="text/template">
-  <div>
-    CONTENT
-  </div>
-</script>
-<script>
-  a = document.createElement('div')
-  a.id = 'login_id'
-  console.log(document.getElementById('login'))
-  a.innerHTML = document.getElementById('login').innerHTML
-  document.body.appendChild(a)
+    <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
-  b = document.createElement('div')
-  b.id = 'content_id'
-  console.log(document.getElementById('content'))
-  b.innerHTML = document.getElementById('content').innerHTML
-</script>
-</body>
+  <script id='login' type="text/template">
+    <img class='logo noselect' src="logo.png" >
+    <div class='signin_title noselect'>Sign in to WorkLists</div>
+    <div class='box_login'>
+      <div>Username </div>
+      <input class='input_login' type="text" name="username">
+      <div class='text_box_spacing'>Password</div>
+      <input class='input_login' type="password" name="password">
+      <button class='button_login noselect' type="button">Login</button>
+    </div>
+  </script>
+  <script id='content' type="text/template">
+    <div>
+      CONTENT
+    </div>
+  </script>
+  <script>
+    a = document.createElement('div')
+    a.id = 'login_id'
+    console.log(document.getElementById('login'))
+    a.innerHTML = document.getElementById('login').innerHTML
+    document.body.appendChild(a)
+
+    b = document.createElement('div')
+    b.id = 'content_id'
+    console.log(document.getElementById('content'))
+    b.innerHTML = document.getElementById('content').innerHTML
+  </script>
 </html>

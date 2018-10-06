@@ -36,10 +36,7 @@ function create_AddElem(col){
   child.setAttribute('class','fa fa-plus add noselect');
   child.innerText = ' Thêm thẻ khác...';
   document.getElementById(col).appendChild(child);
-
   child.addEventListener('mousedown',add_child_callback, false);
-
-
 }
 function child_press(e){
   //e.target.innerHTML = 'Change';
@@ -452,10 +449,17 @@ document.onkeydown = function(evt) {
       child_textarea_add_temp.parentElement.removeChild(child_textarea_add_temp);
     }
 };
-$(document).ready(function() {
-  firebase_init();
 
+function content_init(){
+  //Remove Page Login
+  document.body.removeChild(document.getElementById('login_page'));
 
+  //Change Backgroud color
+  document.body.style.backgroundColor = '#00ddee'
+
+  div_show = document.createElement('div');
+  div_show.innerHTML = document.getElementById('container_content').innerHTML;
+  document.body.appendChild(div_show);
 
   getData_firebase();
   document.getElementById('add1').style.order = 10;
@@ -486,5 +490,22 @@ $(document).ready(function() {
   window.addEventListener('mousedown', press_window, false);
   //Keyboard Press Event
   document.addEventListener("keypress", keypress_callback, false);
+}
+$(document).ready(function() {
+  firebase_init();
+
+  /*
+  div_show = document.createElement('div');
+  div_show.id = 'login_page';
+  div_show.innerHTML = document.getElementById('container_login').innerHTML;
+  document.body.appendChild(div_show);
+
+  document.getElementById('btn_login').addEventListener('click', content_init);
+  */
+  a = document.createElement('div')
+  a.id = 'login_id'
+  console.log(document.getElementById('container_login'))
+  a.innerHTML = document.getElementById('container_login').innerHTML;
+  document.body.appendChild(a)
 
 })
