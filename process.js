@@ -461,7 +461,10 @@ function content_init(){
   div_show.innerHTML = document.getElementById('container_content').innerHTML;
   document.body.appendChild(div_show);
 
-  getData_firebase();
+  IndexDB_Init();
+  setTimeout(getData_firebase, 2000);
+  //getData_firebase();
+
   document.getElementById('add1').style.order = 10;
   document.getElementById('add2').style.order = 10;
   document.getElementById('add3').style.order = 10;
@@ -501,6 +504,7 @@ function google_login(){
     user = result.user;
     // ...
     console.log(user)
+    content_init();
   }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -513,16 +517,62 @@ function google_login(){
     console.log(errorCode)
   });
 }
+
+var db;
+var request;
+var user_id;
+function IndexDB_Init(){
+  //prefixes of implementation that we want to test
+  window.indexedDB = window.indexedDB || window.mozIndexedDB ||
+  window.webkitIndexedDB || window.msIndexedDB;
+
+  //prefixes of window.IDB objects
+  window.IDBTransaction = window.IDBTransaction ||
+  window.webkitIDBTransaction || window.msIDBTransaction;
+  window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange ||
+  window.msIDBKeyRange
+
+  request = window.indexedDB.open("firebaseLocalStorageDb");
+  request.onerror = function(event) {
+     console.log("error: ");
+  };
+
+  request.onsuccess = function(event) {
+     db = request.result;
+     console.log("success: "+ db);
+     readAll();
+  };
+}
+function readAll() {
+   var objectStore = db.transaction("firebaseLocalStorage").objectStore("firebaseLocalStorage");
+   console.log('hihis')
+   objectStore.openCursor().onsuccess = function(event) {
+      var cursor = event.target.result;
+      console.log('hihi')
+      if (cursor) {
+         //alert("Name for id " + cursor.key + " is " + cursor.value.name + ",Age: " + cursor.value.age + ", Email: " + cursor.value.email);
+         console.log(cursor.key + 'hihi ' + cursor.value.value.uid)
+         var array = cursor.key.split(':');
+         user_id = cursor.value.value.uid;
+         console.log(user_id);
+         cursor.continue();
+      } else {
+         //alert("No more entries!");
+         console.log('No UserID');
+      }
+
+   };
+}
+
 $(document).ready(function() {
   firebase_init();
-
 
   div_show = document.createElement('div');
   div_show.id = 'login_page';
   div_show.innerHTML = document.getElementById('container_login').innerHTML;
   document.body.appendChild(div_show);
 
-  document.getElementById('btn_login').addEventListener('click', content_init);
+  //document.getElementById('btn_login').addEventListener('click', content_init);
 
   document.getElementById('btn_google_login').addEventListener('click', google_login);
 
