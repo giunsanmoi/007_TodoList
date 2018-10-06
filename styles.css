@@ -50,6 +50,9 @@ body{
   border-radius: 5px;
   font-weight: bold;
 }
+.icon_login{
+  float: left;
+}
 
 .container_content{
   background-color: #00ddee;

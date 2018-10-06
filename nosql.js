@@ -69,3 +69,7 @@ function delete_element_firebase(col, index){
       [index]: firebase.firestore.FieldValue.delete()
   });
 }
+function firebase_auth(){
+
+
+}
