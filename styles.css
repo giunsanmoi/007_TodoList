@@ -1,5 +1,7 @@
 body{
   background-color: #f9f9f9;
+  margin:0;
+  padding:0;
 }
 .logo{
   min-width: 20px;
@@ -113,6 +115,7 @@ body{
   order: 1;
   position: relative;
   cursor: grab;
+  font-family: Mali;
 }
 .childcontent{
   float: left;
